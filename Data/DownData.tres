@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="InputModeResource" load_steps=4 format=3 uid="uid://dfsghgn3vnbpj"]
+
+[ext_resource type="Script" uid="uid://cdgo14a5xwt6q" path="res://Scripts/Resources/InputModeResource.cs" id="1_u7cjh"]
+
+[sub_resource type="Gradient" id="Gradient_u7cjh"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_lo37l"]
+gradient = SubResource("Gradient_u7cjh")
+fill_to = Vector2(0, 1)
+
+[resource]
+script = ExtResource("1_u7cjh")
+Texture = SubResource("GradientTexture2D_lo37l")
+NeedReset = false
+ShouldInputDown = true
+IsProgress = false
+Duration = 0.0
+metadata/_custom_type_script = "uid://dsu5t67ljbstp"

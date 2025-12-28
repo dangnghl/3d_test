@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://c2glocwp3kr1s"]
+
+[ext_resource type="Texture2D" uid="uid://dck4d5ykbydi4" path="res://icon.svg" id="1_27nhl"]
+
+[node name="Symbol" type="MarginContainer"]
+anchors_preset = -1
+anchor_right = 0.111
+anchor_bottom = 0.198
+offset_right = 0.127991
+offset_bottom = -0.304016
+size_flags_vertical = 3
+
+[node name="Texture" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("1_27nhl")
+expand_mode = 2

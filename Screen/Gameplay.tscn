@@ -1,0 +1,50 @@
+[gd_scene load_steps=8 format=3 uid="uid://bdulu7rbw8jmo"]
+
+[ext_resource type="Script" uid="uid://c6e407rt3fi0e" path="res://Scripts/Managers/GameplayLogic.cs" id="1_rgitf"]
+[ext_resource type="PackedScene" uid="uid://d27tpxgfal1ey" path="res://Prefabs/block.tscn" id="2_rgitf"]
+[ext_resource type="Resource" uid="uid://be3ld0sir3i4x" path="res://Data/UpData.tres" id="2_wfc8w"]
+[ext_resource type="Resource" uid="uid://dfsghgn3vnbpj" path="res://Data/DownData.tres" id="3_rmpxv"]
+[ext_resource type="Resource" uid="uid://bxbnnubuc82qg" path="res://Data/PressData.tres" id="4_jmgai"]
+[ext_resource type="Resource" uid="uid://deb8c8sysplgd" path="res://Data/ReleaseData.tres" id="5_y20uv"]
+[ext_resource type="Script" uid="uid://birwk4kon1jdx" path="res://Scripts/Managers/InputManager.cs" id="7_rmpxv"]
+
+[node name="Gameplay" type="Node2D" node_paths=PackedStringArray("BlockGroup")]
+script = ExtResource("1_rgitf")
+InputUpData = ExtResource("2_wfc8w")
+InputDownData = ExtResource("3_rmpxv")
+InputPressData = ExtResource("4_jmgai")
+InputReleaseData = ExtResource("5_y20uv")
+BlockGroup = NodePath("VBoxContainer")
+BlockPackedScene = ExtResource("2_rgitf")
+
+[node name="InputComponent" type="Node2D" parent="."]
+script = ExtResource("7_rmpxv")
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_direction = 1
+offset_left = 34.0
+offset_top = 151.0
+offset_right = 486.0
+offset_bottom = 223.0
+size_flags_vertical = 0
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(437, 285)
+
+[node name="Block" parent="Marker2D" instance=ExtResource("2_rgitf")]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -69.0
+offset_top = -62.0
+offset_right = 70.0
+offset_bottom = -19.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
