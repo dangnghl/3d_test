@@ -1,18 +1,24 @@
 [gd_scene load_steps=4 format=3 uid="uid://d27tpxgfal1ey"]
 
 [ext_resource type="Script" uid="uid://dm7ic20flplgm" path="res://Scripts/Block.cs" id="1_6iegl"]
-[ext_resource type="PackedScene" uid="uid://c2glocwp3kr1s" path="res://Prefabs/symbol.tscn" id="2_fhoi4"]
+[ext_resource type="Script" uid="uid://dxi8g3eqnnyx3" path="res://Screen/ObjectRegistry.cs" id="2_iuiu2"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6iegl"]
 
-[node name="Block" type="PanelContainer" node_paths=PackedStringArray("PatternGroup")]
-offset_right = 266.0
-offset_bottom = 48.0
-size_flags_vertical = 3
+[node name="Block" type="PanelContainer" node_paths=PackedStringArray("PatternGroup", "SymbolRegistry")]
+custom_minimum_size = Vector2(0, 50)
+offset_right = 20.0
+offset_bottom = 20.0
+size_flags_horizontal = 3
+size_flags_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxEmpty_6iegl")
 script = ExtResource("1_6iegl")
 PatternGroup = NodePath("MarginContainer/TextMarginContainer/PatternContainer")
+SymbolRegistry = NodePath("RegistryComponent")
 metadata/_edit_vertical_guides_ = [-42.0]
+
+[node name="RegistryComponent" type="Node" parent="."]
+script = ExtResource("2_iuiu2")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -35,6 +41,3 @@ theme_override_constants/margin_bottom = 4
 layout_mode = 2
 size_flags_stretch_ratio = 0.0
 theme_override_constants/separation = 1
-
-[node name="Symbol" parent="MarginContainer/TextMarginContainer/PatternContainer" instance=ExtResource("2_fhoi4")]
-layout_mode = 2

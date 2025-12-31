@@ -2,13 +2,39 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "build",
+      "label": "godot:build-solutions",
+      "type": "process",
+      "command": "C:\\2_Workshop\\1_Application\\Godot_v4.4.1-stable_mono_win64\\Godot_v4.4.1-stable_mono_win64\\Godot_v4.4.1-stable_mono_win64.exe",
+      "args": [
+        "--headless",
+        "--path",
+        "${workspaceFolder}",
+        "--build-solutions",
+        "--quit"
+      ],
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+    {
+      "label": "dotnet:build",
       "type": "process",
       "command": "dotnet",
-      "args": ["build"],
+      "args": [
+        "build",
+        "${workspaceFolder}\\YourProjectName.csproj",
+        "-c",
+        "Debug"
+      ],
       "options": { "cwd": "${workspaceFolder}" },
       "problemMatcher": "$msCompile",
-      "group": "build"
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+    {
+      "label": "build:all",
+      "dependsOrder": "sequence",
+      "dependsOn": ["godot:build-solutions", "dotnet:build"],
+      "problemMatcher": [],
+      "group": { "kind": "build", "isDefault": true }
     }
   ]
 }

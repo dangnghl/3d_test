@@ -6,8 +6,8 @@
 anchors_preset = -1
 anchor_right = 0.111
 anchor_bottom = 0.198
-offset_right = 0.127991
-offset_bottom = -0.304016
+offset_right = -12.6
+offset_bottom = -104.4
 size_flags_vertical = 3
 
 [node name="Texture" type="TextureRect" parent="."]

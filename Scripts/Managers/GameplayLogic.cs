@@ -1,54 +1,98 @@
 using Godot;
-using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 
-
+[DebuggerDisplay($"{{{nameof(GetDebuggerDisplay)}(),nq}}")]
 public partial class GameplayLogic : Node2D
 {
 
-    [Export] public InputModeResource InputUpData, InputDownData,InputPressData,InputReleaseData;
-    [Export] public Node BlockGroup; // ToSpawn
-    [Export] public PackedScene BlockPackedScene;
-
-    private double _elapseTimer;
-    private bool _pressed;
-    private bool _needReset;
-    private InputModeResource currClick;
+    [Export] private MatchInputPair _inputPressData, _inputUpData, _inputDownData;
+    [Export] private BlockGroup        _blockGroup;
+    [Export] private InputManager   _inputManager;
 
     public override void _Ready()
     {
-        SpawnBlock("vvvvv");
-        SpawnBlock("==vvxxvx-=--");
-    }
-    public override void _Process(double delta)
-    {
+        Debug.Assert(_inputPressData != null);
+        Debug.Assert(_inputUpData != null);
+        Debug.Assert(_inputDownData != null);
+        Debug.Assert(_blockGroup != null);
         
+        var n = GetNode<BlockGroup>("BlockGroup");
+
+        //SpawnBlock("vvvvv");
+        SpawnBlock("-vv=v-");
+
     }
-
-
-    public void SpawnBlock(string code = "")
+    public override void _Input(InputEvent @event)
     {
-        var insta = BlockPackedScene.Instantiate<Block>();
-        BlockGroup.AddChild(insta);
-
-        var l = new List<InputModeResource>();
-        for (int i = 0; i < code.Length; i++)
+        var _inputPairBuffer = _inputManager.GetInputPairs();
+        if (Input.IsKeyPressed(Key.D))
         {
-            l.Add(code2symbol(code[i]));
+            string a = "";
+            foreach (var inputBehavior in _inputPairBuffer)
+                a += (inputBehavior.ToString());
+            GD.Print(a);
         }
 
+        if (Input.IsKeyPressed(Key.S))
+        {
+            var block = _blockGroup.GetBlock(0);
 
-        insta.EnqeueuSymbols(l.ToArray());
+            var inputPattern = _inputManager.GetInputTrimmedPairs().ToArray();
+            var matchingPattern = block.GetPattern().ToArray();
+
+            int[] v = WindowSlideSearch.FindIndices(
+                inputPattern, matchingPattern,
+                (i,p) => p.IsMatch(i),0
+                );
+            
+            if(v.Length != 0)  _blockGroup.RemoveSymbolsRange(block,v[0],1);
+            //GD.Print(matchingPattern);
+            
+
+        }
+        if (Input.IsKeyPressed(Key.A))
+        {
+            _inputManager.ResetBuffer();
+        }
+    }
+    public void SpawnBlock(string code = "")
+    {
+        var blockObj = _blockGroup.Spawner.Spawn() as Block;    
+        blockObj.InsertSymbols(String2Symbols(code));
     }
 
-    private InputModeResource code2symbol(char code)
+    private MatchInputPair[] String2Symbols(string code)
+    {
+        var inputs = new MatchInputPair[code.Length];
+        for (int i = 0; i < code.Length; i++)
+        {
+            var pair = Code2Symbol(code[i]);
+            inputs.SetValue(pair,i);
+        }
+        return inputs;
+    }
+
+    private MatchInputPair Code2Symbol(char code)
     {
         return code switch
         {
-            'v' => InputPressData,
-            'x' => InputReleaseData,
-            '-' => InputDownData,
-            '=' => InputUpData,
+#if false
+            'v' => new MatchInputPair(false, false, 0.0, 0.0),
+            '-' => new MatchInputPair(false, true, 0.0, 2.0),
+            '=' => new MatchInputPair(true, false, 2.0, 0.0),
             _ => throw new System.NotImplementedException(),
+#else
+            'v' => _inputPressData,
+            '-' => _inputDownData,
+            '=' => _inputUpData,
+            _ => throw new System.NotImplementedException(),
+#endif
         };
+    }
+
+    private string GetDebuggerDisplay()
+    {
+        return ToString();
     }
 }
